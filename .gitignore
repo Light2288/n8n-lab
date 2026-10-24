@@ -1,0 +1,34 @@
+# Secrets: only the empty template belongs in Git.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Runtime state and exports containing credentials or execution history.
+.n8n/
+data/
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+credentials/
+credentials*.json
+**/*credentials*.json
+executions/
+executions*.json
+**/*executions*.json
+
+# Private inputs, scratch workflows and backups.
+private/
+private-samples/
+workflows/private/
+workflows/scratch/
+backups/
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.bak
+.superpowers/
+.DS_Store

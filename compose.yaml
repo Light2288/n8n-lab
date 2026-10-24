@@ -1,0 +1,59 @@
+name: n8n-lab
+
+services:
+  n8n:
+    image: docker.io/n8nio/n8n:2.44.6
+    restart: unless-stopped
+    stop_grace_period: 60s
+    ports:
+      - "127.0.0.1:5678:5678"
+    environment:
+      TZ: Europe/Rome
+      GENERIC_TIMEZONE: Europe/Rome
+      N8N_HOST: localhost
+      N8N_PORT: "5678"
+      N8N_PROTOCOL: http
+      N8N_EDITOR_BASE_URL: http://localhost:5678
+      WEBHOOK_URL: http://localhost:5678/
+      # Local HTTP only. Revisit cookies, URLs, TLS and access controls before public exposure.
+      N8N_SECURE_COOKIE: "false"
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "true"
+      N8N_ENCRYPTION_KEY: "${N8N_ENCRYPTION_KEY:?Set N8N_ENCRYPTION_KEY in .env}"
+      N8N_RUNNERS_MODE: external
+      N8N_RUNNERS_BROKER_LISTEN_ADDRESS: 0.0.0.0
+      N8N_RUNNERS_AUTH_TOKEN: "${N8N_RUNNERS_AUTH_TOKEN:?Set N8N_RUNNERS_AUTH_TOKEN in .env}"
+    volumes:
+      - n8n-data:/home/node/.n8n
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - >-
+          const req = require('http').get('http://127.0.0.1:5678/healthz/readiness',
+          res => { res.resume(); process.exit(res.statusCode === 200 ? 0 : 1); });
+          req.setTimeout(2000, () => { req.destroy(); process.exit(1); });
+          req.on('error', () => process.exit(1));
+      interval: 10s
+      timeout: 5s
+      start_period: 60s
+      retries: 12
+
+  task-runners:
+    image: docker.io/n8nio/runners:2.44.6
+    restart: unless-stopped
+    stop_grace_period: 60s
+    environment:
+      TZ: Europe/Rome
+      GENERIC_TIMEZONE: Europe/Rome
+      N8N_RUNNERS_TASK_BROKER_URI: http://n8n:5679
+      # Explicit mapping keeps the n8n encryption key out of this container.
+      N8N_RUNNERS_AUTH_TOKEN: "${N8N_RUNNERS_AUTH_TOKEN:?Set N8N_RUNNERS_AUTH_TOKEN in .env}"
+    depends_on:
+      n8n:
+        condition: service_healthy
+
+volumes:
+  n8n-data:
+    name: n8n-lab-data
