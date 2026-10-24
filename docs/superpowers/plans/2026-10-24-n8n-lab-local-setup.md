@@ -44,16 +44,16 @@ Work in the existing checkout at `/Users/davide/Personal/Projects/n8n-lab`; no w
 **Task routing:** [size: M | risk: data | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: data]
 **Acceptance criteria:** AC-06–AC-08.
 
-- [ ] Stop both services before inspecting persistent data. Record private evidence of the database, migration records, and instance-settings checksum.
-- [ ] Run `podman compose down` without volume deletion, followed by `podman compose up -d`. Confirm the same named volume remains attached, database state and settings persist, and readiness returns HTTP 200. Do not require the SQLite file's raw checksum to remain unchanged after startup.
-- [ ] Stop both services again for a consistent backup. Create a timestamped directory under `~/.local/share/n8n-lab/backups`, with directory permissions `0700`.
-- [ ] Export using `podman volume export n8n-lab-data --output <private-archive>`. Keep archives at `0600`. Preserve the corresponding `.env` separately from the data archive, also at `0600`.
-- [ ] Create a uniquely named temporary volume and restore with `podman volume import <temporary-volume> <private-archive>`. Export it again and compare normalized per-file contents and checksums, including SQLite and settings. Ignore tar ordering; never print file contents.
-- [ ] Confirm the restored contents match. Delete only the temporary restore volume and comparison archive. Retain the backup, restart the working stack, and verify readiness.
-- [ ] Complete documentation covering prerequisites, first-owner setup, start/stop, logs, readiness, stopping versus deleting volumes, Mac sleep and stopped-VM interruptions, local HTTP/public-exposure boundary, backup/recovery, secure encryption-key retention, and backups before updating both image pins together.
-- [ ] Document manual workflow versioning: export JSON through the editor, inspect pinned data, inline authentication, headers, private samples, and credential references, then commit reviewed exports.
-- [ ] Explain explicit JSON import and separate credential recreation. Editor saves and Git pulls do not synchronize workflows automatically.
-- [ ] Commit the verified operating and workflow documentation.
+- [x] Stop both services before inspecting persistent data. Record private evidence of the database, migration records, and instance-settings checksum.
+- [x] Run `podman compose down` without volume deletion, followed by `podman compose up -d`. Confirm the same named volume remains attached, database state and settings persist, and readiness returns HTTP 200. Do not require the SQLite file's raw checksum to remain unchanged after startup.
+- [x] Stop both services again for a consistent backup. Create a timestamped directory under `~/.local/share/n8n-lab/backups`, with directory permissions `0700`.
+- [x] Export using `podman volume export n8n-lab-data --output <private-archive>`. Keep archives at `0600`. Preserve the corresponding `.env` separately from the data archive, also at `0600`.
+- [x] Create a uniquely named temporary volume and restore with `podman volume import <temporary-volume> <private-archive>`. Export it again and compare normalized per-file contents and checksums, including SQLite and settings. Ignore tar ordering; never print file contents.
+- [x] Confirm the restored contents match. Delete only the temporary restore volume and comparison archive. Retain the backup, restart the working stack, and verify readiness.
+- [x] Complete documentation covering prerequisites, first-owner setup, start/stop, logs, readiness, stopping versus deleting volumes, Mac sleep and stopped-VM interruptions, local HTTP/public-exposure boundary, backup/recovery, secure encryption-key retention, and backups before updating both image pins together.
+- [x] Document manual workflow versioning: export JSON through the editor, inspect pinned data, inline authentication, headers, private samples, and credential references, then commit reviewed exports.
+- [x] Explain explicit JSON import and separate credential recreation. Editor saves and Git pulls do not synchronize workflows automatically.
+- [x] Commit the verified operating and workflow documentation.
 
 ## Task 3: Review and publish the unmerged branch
 
