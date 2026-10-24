@@ -1,6 +1,6 @@
 # n8n-lab
 
-A local n8n playground on macOS ARM64, using Podman and manual workflow JSON versioning. Both official images are pinned to **2.44.6**. Docker is not required.
+A local n8n playground on macOS ARM64, using Podman. This repository versions runtime configuration and operating documentation; reviewed workflow examples live in [n8n-workflows](https://github.com/Light2288/n8n-workflows/tree/chore/workflow-repositories). Both official images are pinned to **2.44.6**. Docker is not required.
 
 The editor runs at **http://localhost:5678**. SQLite and instance settings live in the named volume `n8n-lab-data`. An external task-runner container executes Code nodes without receiving that volume or the n8n encryption key. The container network permits outbound API requests; it is not an air-gapped environment.
 
@@ -14,10 +14,10 @@ podman machine start  # only if your machine is stopped
 podman compose version
 ```
 
-Clone this repository and enter its directory. Until the implementation branch is separately merged, clone that branch explicitly:
+Clone the runtime configuration from `main` and enter its directory:
 
 ```sh
-git clone --branch chore/local-n8n-setup https://github.com/Light2288/n8n-lab.git
+git clone --branch main https://github.com/Light2288/n8n-lab.git
 cd n8n-lab
 ```
 
@@ -67,9 +67,9 @@ Workflows stop running when macOS sleeps or the Podman VM is stopped. Container 
 
 ## Workflows and recovery
 
-Git stores configuration, documentation, and **reviewed workflow JSON**, not live instance state. See [workflow export/import](workflows/README.md) and [backup and restore](docs/backup-and-restore.md).
+This repository stores runtime configuration and documentation. [n8n-workflows](https://github.com/Light2288/n8n-workflows/tree/chore/workflow-repositories) owns reviewed workflow JSON, examples, and the manual export/review/import procedure. That link targets its implementation branch while the initial work awaits a separate merge; the runtime remains on this repository's `main`.
 
-Export from the editor, remove private pinned data and embedded secrets, review the JSON, then commit it. Import JSON explicitly into another instance. Saving a workflow in the editor or pulling Git changes does not synchronize the database. Credentials must be recreated separately.
+Saving in the editor updates the local database. Committing or pulling exported JSON does not synchronize that database; import definitions explicitly and configure credentials locally. See the [workflow repository pointer](workflows/README.md) and [backup and restore](docs/backup-and-restore.md).
 
 For recovery, stop both services, export the SQLite volume, and preserve the matching `.env` separately from the data archive. Rehearse restoration in a new volume; never import a rehearsal over the working volume.
 
