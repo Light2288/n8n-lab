@@ -1,6 +1,6 @@
 # n8n-lab
 
-A local n8n playground on macOS ARM64, using Podman. This repository versions runtime configuration and operating documentation; reviewed workflow examples live in [n8n-workflows](https://github.com/Light2288/n8n-workflows/tree/chore/workflow-repositories). Both official images are pinned to **2.44.6**. Docker is not required.
+A local n8n playground on macOS ARM64, using Podman. This repository versions runtime configuration and operating documentation; reviewed workflow examples live in [n8n-workflows](https://github.com/Light2288/n8n-workflows/tree/main). Both official images are pinned to **2.44.6**. Docker is not required.
 
 The editor runs at **http://localhost:5678**. SQLite and instance settings live in the named volume `n8n-lab-data`. An external task-runner container executes Code nodes without receiving that volume or the n8n encryption key. The container network permits outbound API requests; it is not an air-gapped environment.
 
@@ -67,7 +67,7 @@ Workflows stop running when macOS sleeps or the Podman VM is stopped. Container 
 
 ## Workflows and recovery
 
-This repository stores runtime configuration and documentation. [n8n-workflows](https://github.com/Light2288/n8n-workflows/tree/chore/workflow-repositories) owns reviewed workflow JSON, examples, and the manual export/review/import procedure. That link targets its implementation branch while the initial work awaits a separate merge; the runtime remains on this repository's `main`.
+This repository stores runtime configuration and documentation. [n8n-workflows](https://github.com/Light2288/n8n-workflows/tree/main) owns reviewed workflow JSON, examples, and the manual export/review/import procedure.
 
 Saving in the editor updates the local database. Committing or pulling exported JSON does not synchronize that database; import definitions explicitly and configure credentials locally. See the [workflow repository pointer](workflows/README.md) and [backup and restore](docs/backup-and-restore.md).
 
