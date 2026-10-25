@@ -1,6 +1,6 @@
 # Workflow examples
 
-[n8n-workflows](https://github.com/Light2288/n8n-workflows/tree/chore/workflow-repositories) is the authoritative home for reviewed workflow JSON, example documentation, and the manual export/review/import procedure. The link targets its implementation branch until a separate merge into main.
+[n8n-workflows](https://github.com/Light2288/n8n-workflows/tree/main) is the authoritative home for reviewed workflow JSON, example documentation, and the manual export/review/import procedure.
 
 n8n-lab owns the runtime and operations. Keep workflow exports in the companion repository. Editor saves update the running database; Git changes require an explicit JSON import and local credential configuration.
 
